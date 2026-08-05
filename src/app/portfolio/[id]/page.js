@@ -1,5 +1,16 @@
-export default function Portfolio() {
+import { createClient } from "@/utils/supabase/client";
+
+export default async function Portfolio({ params }) {
   const supabase = createClient();
+  const { id } = await params;
+
+  const { data, error } = await supabase
+    .from("portfolio")
+    .select()
+    .eq("id", id)
+    .single();
+
+  console.log(data);
 
   return (
     <div className="portoflio-single">
@@ -7,31 +18,24 @@ export default function Portfolio() {
         <div className="col-md-8 decription">
           <div className="contents shadow">
             {/* <img src="images/portfolio_single_img1.jpg" alt="img1"> */}
-            <p>image description 1</p>
+            <p>{data?.rep1_desc ?? ""}</p>
           </div>
           <div className="contents shadow">
-            {/* <img src="images/portfolio_single_img2.jpg" alt="img2">
-                        <p>image description 2</p> */}
+            {/* <img src="images/portfolio_single_img2.jpg" alt="img2"> */}
+            <p>{data?.rep2_desc ?? ""}</p>
           </div>
         </div>
         <div className="col-md-4 portfolio_info">
           <div className="contents shadow">
-            <h2>New Landing Page</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-            </p>
+            <h2>{data?.title ?? "Project Title"}</h2>
+            <div>{data?.content ?? ""}</div>
             <p className="link">
-              <a href="">Visit site &rarr;</a>
+              <a href={data?.url ?? ""}>Visit site &rarr;</a>
             </p>
             <hr className="double" />
             <blockquote>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua.”{" "}
-              </p>
-              <small>- JOHN DOE, ACME INC. -</small>
+              <p>{data?.review ?? ""}</p>
+              <small>- {data?.reviewer ?? ""} -</small>
             </blockquote>
             <p className="nav">
               <a href="" className="secondary-btn">
