@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import LoginStatus from "./components/LoginStatus";
 //css 로드
+
 import "./bootstrap-grid.min.css";
 import "./reset.css";
 import "./common.css";
@@ -34,6 +36,7 @@ export default function RootLayout({ children }) {
               <li>
                 <Link href="/contact">Contact</Link>
               </li>
+              <LoginStatus />
             </ul>
           </nav>
         </header>
